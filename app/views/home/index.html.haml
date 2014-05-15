@@ -1,0 +1,54 @@
+.row
+  .col-md-6
+    %h2{style: 'color: red'}="#{@movies.count} matching movies found"
+    %table.table.table-condensed
+      %tbody
+        - @movies.each do |movie|
+          %tr
+            %td{colspan: 3}
+              %strong=movie.title
+          %tr
+            %td.small
+              Year:
+              =movie.year.year
+            %td.small
+              Genre:
+              =movie.genre.name
+            %td.small
+              Studio:
+              =movie.studio.name
+    = will_paginate @movies
+  .col-md-6
+    %h3.well-title
+      Filter
+      = link_to 'reset', '?', class: 'btn btn-default btn-sm pull-right'
+    .well
+      %h4 Title
+      %p
+        = form_tag nil, method: :get, class: 'form-inline' do
+          .row
+            .col-md-12
+              .input-group
+                = text_field_tag 'search[title]', @search.filter(:title).value, class: 'form-control'
+                .input-group-btn
+                  %button.btn.btn-primary search
+
+      .row
+        - [:year, :genre, :studio].each do |filter_name|
+          - filter = @search.filter(filter_name)
+          .col-md-4
+            .filter
+              .filter-title= filter.name
+              .filter-values
+                %ul.selected
+                  - filter.selected.each do |entity|
+                    - display = filter_name == :year ? entity.year : entity.name
+                    %li= link_to display, filter.remove(entity).path
+                %ul.selectable
+                  - filter.facet.reject(&:selected).each do |facet_value|
+                    - entity = facet_value.entity
+                    %li
+                      - display = filter_name == :year ? entity.year : entity.name
+                      = link_to display, filter.add(entity).path
+                      %span.count= "(#{facet_value.count})"
+
