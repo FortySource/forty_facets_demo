@@ -40,7 +40,7 @@ GEM
     coffee-script-source (1.7.0)
     erubis (2.7.0)
     execjs (2.0.2)
-    forty_facets (0.0.1)
+    forty_facets (0.0.2)
     haml (4.1.0.beta.1)
       tilt
     haml-rails (0.5.3)
@@ -62,6 +62,8 @@ GEM
     jquery-rails (3.1.0)
       railties (>= 3.0, < 5.0)
       thor (>= 0.14, < 2.0)
+    jquery-ui-rails (4.2.0)
+      railties (>= 3.2.16)
     json (1.8.1)
     mail (2.5.4)
       mime-types (~> 1.16)
@@ -144,6 +146,7 @@ DEPENDENCIES
   html2haml
   jbuilder (~> 2.0)
   jquery-rails
+  jquery-ui-rails
   pg
   quiet_assets
   rails (= 4.1.0)

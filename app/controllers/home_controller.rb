@@ -3,10 +3,18 @@ class HomeController < ApplicationController
 
   class MovieSearch < FortyFacets::FacetSearch
     model 'Movie'
+
     text :title
+    range :price
     facet :genre, name: 'Genre'
     facet :year, name: 'Releaseyear', order: :year
     facet :studio, name: 'Studio', order: :name
+
+    orders 'Title' => :title,
+           'price, cheap first' => "price asc",
+           'price, expensive first' => {price: :desc, title: :desc}
+
+
   end
 
   def index

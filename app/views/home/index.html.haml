@@ -5,7 +5,7 @@
       %tbody
         - @movies.each do |movie|
           %tr
-            %td{colspan: 3}
+            %td{colspan: 4}
               %strong=movie.title
           %tr
             %td.small
@@ -17,6 +17,10 @@
             %td.small
               Studio:
               =movie.studio.name
+            %td.small
+              Price:
+              =movie.price
+              $
     = will_paginate @movies
   .col-md-6
     %h3.well-title
@@ -25,13 +29,29 @@
     .well
       %h4 Title
       %p
-        = form_tag nil, method: :get, class: 'form-inline' do
+        = form_tag nil, method: :get do
           .row
-            .col-md-12
+            .col-md-5.form-inline
               .input-group
                 = text_field_tag 'search[title]', @search.filter(:title).value, class: 'form-control'
                 .input-group-btn
                   %button.btn.btn-primary search
+            .col-md-3
+              = hidden_field_tag 'search[order]', @search.order.definition.request_value if @search.order
+              .input-group
+                .input-group-addon $
+                = text_field_tag 'search[price]', @search.filter(:price).value, class: 'form-control', id: 'price-range', data: { absolut: { min: @search.filter(:price).absolute_min,  max: @search.filter(:price).absolute_max } }
+              %br
+              #slider-range
+            .col-md-4.dropdown
+              %a.btn.btn-default{"data-toggle" => "dropdown", href: "#", role: "button"}
+                sort by:
+                = @search.order.title if @search.order
+                %b.caret
+              %ul#menu1.dropdown-menu{"aria-labelledby" => "drop4", role: "menu"}
+                - @search.orders.reject(&:active).each do |order|
+                  %li
+                    = link_to order.title, order.by.path
 
       .row
         - [:year, :genre, :studio].each do |filter_name|
@@ -51,4 +71,28 @@
                       - display = filter_name == :year ? entity.year : entity.name
                       = link_to display, filter.add(entity).path
                       %span.count= "(#{facet_value.count})"
+:javascript
+  $(function() {
+    var current = $('#price-range').val();
+    var abs_min = $('#slider-min').attr('data-absolut-min');
+    var abs_max = $('#slider-min').attr('data-absolut-min');
 
+    var current_min = abs_min;
+    var current_max = abs_max;
+
+    if (current != '') {
+      var splits = current.split(' - ');
+      current_min = splits[0];
+      current_max = splits[1];
+    }
+    $( "#slider-range" ).slider({
+      range: true,
+      min: abs_min,
+      max:  abs_max,
+      values: [ current_min, current_max ],
+      slide: function( event, ui ) {
+        $( "#price-range" ).val( ui.values[ 0 ] + " - " + ui.values[ 1 ] );
+      }
+    });
+    //$( "#amount" ).val( "$" + $( "#slider-range" ).slider( "values", 0 ) + " - $" + $( "#slider-range" ).slider( "values", 1 ) );
+  });
