@@ -16,6 +16,7 @@ gem 'will_paginate'
 gem 'forty_facets'
 gem 'pg'
 gem 'jquery-ui-rails'
+gem 'rails_12factor'
 
 group :development do
   gem 'sqlite3'
