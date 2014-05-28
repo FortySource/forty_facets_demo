@@ -4,8 +4,8 @@ class HomeController < ApplicationController
   class MovieSearch < FortyFacets::FacetSearch
     model 'Movie'
 
-    text :title
-    range :price
+    text :title, name: 'Title'
+    range :price, name: 'Price'
     facet :genre, name: 'Genre'
     facet :year, name: 'Releaseyear', order: :year
     facet :studio, name: 'Studio', order: :name
@@ -13,13 +13,11 @@ class HomeController < ApplicationController
     orders 'Title' => :title,
            'price, cheap first' => "price asc",
            'price, expensive first' => {price: :desc, title: :desc}
-
-
   end
 
   def index
     @search = MovieSearch.new(params)
-    @movies = @search.result.paginate(page: params[:page], per_page: 5)
+    @movies = @search.result.paginate(page: params[:page], per_page: 9)
   end
 
   def import

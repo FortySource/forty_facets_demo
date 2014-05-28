@@ -1,60 +1,71 @@
 .row
   .col-md-6
-    %h2{style: 'color: red'}="#{@movies.count} matching movies found"
-    %table.table.table-condensed
-      %tbody
-        - @movies.each do |movie|
-          %tr
-            %td{colspan: 4}
-              %strong=movie.title
-          %tr
-            %td.small
-              Year:
+    %h3.well-title="#{@movies.count} matching movies found"
+    .row
+      - @movies.each do |movie|
+        .col-md-4
+          .well.movie
+            .title{title: movie.title}=movie.title
+            .details
+              .badge.price
+                =movie.price
+                $
+              %i.glyphicon.glyphicon-calendar{title: 'Year'}
               =movie.year.year
-            %td.small
-              Genre:
+              %br
+              %i.glyphicon.glyphicon-film{title: 'Genre'}
               =movie.genre.name
-            %td.small
-              Studio:
+              %br
+              %i.glyphicon.glyphicon-home{title: 'Studio'}
               =movie.studio.name
-            %td.small
-              Price:
-              =movie.price
-              $
+
     = will_paginate @movies
   .col-md-6
     %h3.well-title
       Filter
       = link_to 'reset', '?', class: 'btn btn-default btn-sm pull-right'
     .well
-      %h4 Title
-      %p
-        = form_tag nil, method: :get do
-          .row
-            .col-md-5.form-inline
-              .input-group
-                = text_field_tag 'search[title]', @search.filter(:title).value, class: 'form-control'
-                .input-group-btn
-                  %button.btn.btn-primary search
-            .col-md-3
-              = hidden_field_tag 'search[order]', @search.order.definition.request_value if @search.order
+      .row
+        .col-md-4
+          = form_tag nil, method: :get do
+            = hidden_field_tag 'search[order]', @search.order.definition.request_value if @search.order
+            .filter
+              - title_filter = @search.filter(:title)
+              .filter-title= title_filter.name
+              .filter-value
+                .input-group
+                  = text_field_tag 'search[title]', title_filter.value, class: 'form-control'
+                  .input-group-btn
+                    %button.btn.btn-primary search
+            .filter
+              - price_filter = @search.filter(:price)
+              .filter-title= price_filter.name
+              .filter-value
               .input-group
                 .input-group-addon $
-                = text_field_tag 'search[price]', @search.filter(:price).value, class: 'form-control', id: 'price-range', data: { absolut: { min: @search.filter(:price).absolute_min,  max: @search.filter(:price).absolute_max } }
+                = text_field_tag 'search[price]', price_filter.value, class: 'form-control', id: 'price-range', data: { 'absolute-min' => price_filter.absolute_min,  'absolute-max' => price_filter.absolute_max  }
+                .input-group-btn
+                  %button.btn.btn-primary search
               %br
-              #slider-range
-            .col-md-4.dropdown
-              %a.btn.btn-default{"data-toggle" => "dropdown", href: "#", role: "button"}
-                sort by:
-                = @search.order.title if @search.order
-                %b.caret
-              %ul#menu1.dropdown-menu{"aria-labelledby" => "drop4", role: "menu"}
-                - @search.orders.reject(&:active).each do |order|
-                  %li
-                    = link_to order.title, order.by.path
-
-      .row
-        - [:year, :genre, :studio].each do |filter_name|
+              .slider-row
+                .slider-min
+                  ="#{price_filter.absolute_min}$"
+                .slider-max
+                  ="#{price_filter.absolute_max}$"
+                .slider
+                  #slider-range
+            .filter
+              .filter-value
+                %a.btn.btn-default{"data-toggle" => "dropdown", href: "#", role: "button"}
+                  sort by:
+                  = @search.order.title if @search.order
+                  %b.caret
+                %ul#menu1.dropdown-menu{"aria-labelledby" => "drop4", role: "menu"}
+                  - @search.orders.reject(&:active).each do |order|
+                    %li
+                      = link_to order.title, order.by.path
+            
+        - [:genre, :studio].each do |filter_name|
           - filter = @search.filter(filter_name)
           .col-md-4
             .filter
@@ -74,16 +85,16 @@
 :javascript
   $(function() {
     var current = $('#price-range').val();
-    var abs_min = $('#slider-min').attr('data-absolut-min');
-    var abs_max = $('#slider-min').attr('data-absolut-min');
+    var abs_min = parseFloat($('#price-range').attr('data-absolute-min'));
+    var abs_max = parseFloat($('#price-range').attr('data-absolute-max'));
 
     var current_min = abs_min;
     var current_max = abs_max;
 
     if (current != '') {
       var splits = current.split(' - ');
-      current_min = splits[0];
-      current_max = splits[1];
+      current_min = parseFloat(splits[0]);
+      current_max = parseFloat(splits[1]);
     }
     $( "#slider-range" ).slider({
       range: true,
@@ -94,5 +105,4 @@
         $( "#price-range" ).val( ui.values[ 0 ] + " - " + ui.values[ 1 ] );
       }
     });
-    //$( "#amount" ).val( "$" + $( "#slider-range" ).slider( "values", 0 ) + " - $" + $( "#slider-range" ).slider( "values", 1 ) );
   });
