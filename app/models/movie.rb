@@ -34,12 +34,14 @@ class Movie < ActiveRecord::Base
 
     total = movies.length
     Rails.logger.info "Creating Movies: #{total} movies total."
-    movies.each_with_index do |m,i|
+    r = Rand.new
+    movies.take(9000).each_with_index do |m,i|
       Movie.create(
         title: m[:title],
         year: years[m[:year]],
         studio: studios[m[:studio]],
-        genre: genres[m[:genre]]
+        genre: genres[m[:genre]],
+        price: r.rand(100)
       )
 
     end
