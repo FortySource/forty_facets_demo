@@ -13,7 +13,7 @@ gem 'bootstrap-sass'
 gem 'haml-rails'
 gem 'will_paginate'
 
-gem 'forty_facets'
+gem 'forty_facets', '~> 0.0.6'
 gem 'pg'
 gem 'jquery-ui-rails'
 gem 'rails_12factor'

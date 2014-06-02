@@ -11,7 +11,7 @@
                 =movie.price
                 $
               %i.glyphicon.glyphicon-calendar{title: 'Year'}
-              =movie.year.year
+              =movie.year
               %br
               %i.glyphicon.glyphicon-film{title: 'Genre'}
               =movie.genre.name
@@ -64,8 +64,8 @@
                   - @search.orders.reject(&:active).each do |order|
                     %li
                       = link_to order.title, order.by.path
-            
-        - [:genre, :studio].each do |filter_name|
+
+        - [:genre, :studio, :year].each do |filter_name|
           - filter = @search.filter(filter_name)
           .col-md-4
             .filter
@@ -73,13 +73,13 @@
               .filter-values
                 %ul.selected
                   - filter.selected.each do |entity|
-                    - display = filter_name == :year ? entity.year : entity.name
+                    - display = filter_name == :year ? entity : entity.name
                     %li= link_to display, filter.remove(entity).path
                 %ul.selectable
                   - filter.facet.reject(&:selected).each do |facet_value|
                     - entity = facet_value.entity
                     %li
-                      - display = filter_name == :year ? entity.year : entity.name
+                      - display = filter_name == :year ? entity : entity.name
                       = link_to display, filter.add(entity).path
                       %span.count= "(#{facet_value.count})"
 :javascript

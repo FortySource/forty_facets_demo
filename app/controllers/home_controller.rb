@@ -7,7 +7,7 @@ class HomeController < ApplicationController
     text :title, name: 'Title'
     range :price, name: 'Price'
     facet :genre, name: 'Genre'
-    facet :year, name: 'Releaseyear', order: :year
+    facet_attr :year
     facet :studio, name: 'Studio', order: :name
 
     orders 'Title' => :title,
