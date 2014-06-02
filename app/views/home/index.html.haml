@@ -25,46 +25,43 @@
       Filter
       = link_to 'reset', '?', class: 'btn btn-default btn-sm pull-right'
     .well
-      .row
-        .col-md-4
-          = form_tag nil, method: :get do
-            = hidden_field_tag 'search[order]', @search.order.definition.request_value if @search.order
-            .filter
-              - title_filter = @search.filter(:title)
-              .filter-title= title_filter.name
-              .filter-value
-                .input-group
-                  = text_field_tag 'search[title]', title_filter.value, class: 'form-control'
-                  .input-group-btn
-                    %button.btn.btn-primary search
-            .filter
-              - price_filter = @search.filter(:price)
-              .filter-title= price_filter.name
-              .filter-value
-              .input-group
-                .input-group-addon $
-                = text_field_tag 'search[price]', price_filter.value, class: 'form-control', id: 'price-range', data: { 'absolute-min' => price_filter.absolute_min,  'absolute-max' => price_filter.absolute_max  }
-                .input-group-btn
-                  %button.btn.btn-primary search
-              %br
-              .slider-row
-                .slider-min
-                  ="#{price_filter.absolute_min}$"
-                .slider-max
-                  ="#{price_filter.absolute_max}$"
-                .slider
-                  #slider-range
-            .filter
-              .filter-value
-                %a.btn.btn-default{"data-toggle" => "dropdown", href: "#", role: "button"}
-                  sort by:
-                  = @search.order.title if @search.order
-                  %b.caret
-                %ul#menu1.dropdown-menu{"aria-labelledby" => "drop4", role: "menu"}
-                  - @search.orders.reject(&:active).each do |order|
-                    %li
-                      = link_to order.title, order.by.path
+      .row.search-inputs
+        = form_tag nil, method: :get do
+          = hidden_field_tag 'search[order]', @search.order.definition.request_value if @search.order
+          .col-md-4
+            - title_filter = @search.filter(:title)
+            = text_field_tag 'search[title]', title_filter.value, class: 'form-control', placeholder: title_filter.name
+          .col-md-5
+            - price_filter = @search.filter(:price)
+            .input-group
+              .input-group-addon $
+              = text_field_tag 'search[price]', price_filter.value, class: 'form-control', id: 'price-range', data: { 'absolute-min' => price_filter.absolute_min,  'absolute-max' => price_filter.absolute_max  }, disabled: true
+              .input-group-btn
+                %button.btn.btn-primary search
+            %br
+            -#.input-group
+              .input-group-addon $
+              = text_field_tag 'search[price]', price_filter.value, class: 'form-control', id: 'price-range', data: { 'absolute-min' => price_filter.absolute_min,  'absolute-max' => price_filter.absolute_max  }, disabled: true
+              %button.form-control.btn.btn-primary search
+            .slider-row
+              .slider-min
+                ="#{price_filter.absolute_min}$"
+              .slider-max
+                ="#{price_filter.absolute_max}$"
+              .slider
+                #slider-range
 
+          .col-md-3
+            %a.btn.btn-default{"data-toggle" => "dropdown", href: "#", role: "button"}
+              sort by:
+              = @search.order.title if @search.order
+              %b.caret
+            %ul#menu1.dropdown-menu{"aria-labelledby" => "drop4", role: "menu"}
+              - @search.orders.reject(&:active).each do |order|
+                %li
+                  = link_to order.title, order.by.path
+
+      .row
         - [:genre, :studio, :year].each do |filter_name|
           - filter = @search.filter(filter_name)
           .col-md-4
