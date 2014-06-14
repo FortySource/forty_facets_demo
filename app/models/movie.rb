@@ -1,6 +1,8 @@
 class Movie < ActiveRecord::Base
   belongs_to :genre
   belongs_to :studio
+  has_and_belongs_to_many :actors
+  has_and_belongs_to_many :writers
 
   def self.import
     Rails.logger.info "Cleaning up.."
@@ -8,6 +10,16 @@ class Movie < ActiveRecord::Base
     Movie.delete_all
     Genre.delete_all
     Studio.delete_all
+
+    actors = []
+    142.times do
+      actors << Actor.create(name: Faker::Name.name)
+    end
+
+    writers = []
+    123.times do
+      writers << Writer.create(name: Faker::Name.name)
+    end
 
     Rails.logger.info "parsing data.."
     f = File.join(Rails.root, 'movies.yml')
@@ -35,7 +47,9 @@ class Movie < ActiveRecord::Base
         year: m[:year],
         studio: studios[m[:studio]],
         genre: genres[m[:genre]],
-        price: r.rand(100)
+        price: r.rand(100),
+        actors: (1..(rand(7)+1)).to_a.map {actors[rand(actors.length)]}.uniq,
+        writers: (1..rand(3)).to_a.map {writers[rand(writers.length)]}.uniq
       )
 
     end

@@ -9,6 +9,8 @@ class HomeController < ApplicationController
     facet :genre, name: 'Genre'
     facet :year, order: Proc.new { |year| -year }
     facet :studio, name: 'Studio', order: :name
+    facet :actors, name: 'Actors', order: :name
+    facet :writers, name: 'Writers', order: :name
 
     orders 'Title' => :title,
            'price, cheap first' => "price asc",
@@ -17,7 +19,7 @@ class HomeController < ApplicationController
 
   def index
     @search = MovieSearch.new(params)
-    @movies = @search.result.paginate(page: params[:page], per_page: 9)
+    @movies = @search.result.paginate(page: params[:page], per_page: 6)
   end
 
   def import

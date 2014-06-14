@@ -1,23 +1,35 @@
 .row
   .col-md-6
     %h3.well-title="#{@movies.count} matching movies found"
-    .row
-      - @movies.each do |movie|
-        .col-md-4
-          .well.movie
-            .title{title: movie.title}=movie.title
-            .details
-              .badge.price
-                =movie.price
-                $
-              %i.glyphicon.glyphicon-calendar{title: 'Year'}
-              =movie.year
-              %br
-              %i.glyphicon.glyphicon-film{title: 'Genre'}
-              =movie.genre.name
-              %br
-              %i.glyphicon.glyphicon-home{title: 'Studio'}
-              =movie.studio.name
+    - @movies.each_slice(2) do |sliced_movies|
+      .row
+        - sliced_movies.each do |movie|
+          .col-md-6
+            .well.movie
+              .title{title: movie.title}=movie.title
+              .row.details
+                .col-md-6
+                  .badge.price
+                    =movie.price
+                    $
+                  %br
+                  %i.glyphicon.glyphicon-calendar{title: 'Year'}
+                  =movie.year
+                  %br
+                  %i.glyphicon.glyphicon-film{title: 'Genre'}
+                  =movie.genre.name
+                  %br
+                  %i.glyphicon.glyphicon-home{title: 'Studio'}
+                  =movie.studio.name
+                  - movie.writers.each do |writer|
+                    %br
+                    %i.glyphicon.glyphicon-pencil{title: 'writer'}
+                    =writer.name
+                .col-md-6
+                  - movie.actors.each do |actor|
+                    %br
+                    %i.glyphicon.glyphicon-user{title: 'actor'}
+                    =actor.name
 
     = will_paginate @movies
   .col-md-6
@@ -66,7 +78,9 @@
           - filter = @search.filter(filter_name)
           .col-md-4
             .filter
-              .filter-title= filter.name
+              .filter-title
+                = filter.name
+                %span.small.text-muted="(#{filter.facet.length})"
               .filter-values
                 %ul.selected
                   - filter.selected.each do |entity|
@@ -78,6 +92,24 @@
                     %li
                       - display = filter_name == :year ? entity : entity.name
                       = link_to display, filter.add(entity).path
+                      %span.count= "(#{facet_value.count})"
+      .row
+        - [:actors, :writers].each do |filter_name|
+          - filter = @search.filter(filter_name)
+          .col-md-4
+            .filter
+              .filter-title
+                = filter.name
+                %span.small.text-muted="(#{filter.facet.length})"
+              .filter-values
+                %ul.selected
+                  - filter.selected.each do |entity|
+                    %li= link_to entity.name, filter.remove(entity).path
+                %ul.selectable
+                  - filter.facet.reject(&:selected).each do |facet_value|
+                    - entity = facet_value.entity
+                    %li
+                      = link_to entity.name, filter.add(entity).path
                       %span.count= "(#{facet_value.count})"
 :javascript
   $(function() {
