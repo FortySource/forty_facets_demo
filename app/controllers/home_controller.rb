@@ -1,29 +1,19 @@
 class HomeController < ApplicationController
-  before_filter :import, if: ->() { Movie.count == 0 || params[:reimport]}
-
-  class MovieSearch < FortyFacets::FacetSearch
-    model 'Movie'
-
-    text :title, name: 'Title'
-    range :price, name: 'Price'
-    facet :genre, name: 'Genre'
-    facet :year, order: Proc.new { |year| -year }
-    facet :studio, name: 'Studio', order: :name
-    facet :actors, name: 'Actors', order: :name
-    facet :writers, name: 'Writers', order: :name
-
-    orders 'Title' => :title,
-           'price, cheap first' => "price asc",
-           'price, expensive first' => {price: :desc, title: :desc}
-  end
+  before_action :assert_movies, only: [:index]
 
   def index
-    @search = MovieSearch.new(params)
-    @movies = @search.result.paginate(page: params[:page], per_page: 6)
+    @search  = MovieSearch.new(params)
+    @movies = @search.result.paginate(page: params[:page])
   end
 
-  def import
-    Movie.import
-  end
+  private
 
+    def assert_movies
+      flash.now[:danger] = ERR_NO_MOVIES unless Movie.any?
+    end
+
+    ERR_NO_MOVIES = """
+      There are no movies.
+      Please run `rake movies:import` in your terminal.
+    """
 end
