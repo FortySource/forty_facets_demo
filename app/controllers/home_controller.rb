@@ -2,6 +2,7 @@ class HomeController < ApplicationController
   before_action :assert_movies, only: [:index]
 
   def index
+    debugger
     @search  = MovieSearch.new(params)
     @movies = @search.result.paginate(page: params[:page])
   end
