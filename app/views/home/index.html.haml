@@ -47,7 +47,8 @@
             - price_filter = @search.filter(:price)
             .input-group
               .input-group-addon $
-              = text_field_tag 'search[price]', price_filter.value, class: 'form-control', id: 'price-range', data: { 'absolute-min' => price_filter.absolute_min,  'absolute-max' => price_filter.absolute_max  }, disabled: true
+              = text_field_tag 'disabled', price_filter.value, class: 'form-control', id: 'price-range-display', disabled: true
+              = hidden_field_tag 'search[price]', price_filter.value, class: 'form-control', id: 'price-range', data: { 'absolute-min' => price_filter.absolute_min,  'absolute-max' => price_filter.absolute_max  }
               .input-group-btn
                 %button.btn.btn-primary search
             %br
@@ -132,6 +133,7 @@
       values: [ current_min, current_max ],
       slide: function( event, ui ) {
         $( "#price-range" ).val( ui.values[ 0 ] + " - " + ui.values[ 1 ] );
+        $( "#price-range-display" ).val( ui.values[ 0 ] + " - " + ui.values[ 1 ] );
       }
     });
   });
