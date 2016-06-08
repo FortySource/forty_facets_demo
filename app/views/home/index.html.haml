@@ -73,6 +73,13 @@
               - @search.orders.reject(&:active).each do |order|
                 %li
                   = link_to order.title, order.by.path
+            %br
+            - classics_filter = @search.filter(:classics)
+
+            - if classics_filter.active?
+              = link_to '[✓] Only Classics', classics_filter.remove.path
+            - else
+              = link_to '[_] Only Classics', classics_filter.add.path
 
       .row
         - [:genre, :studio, :year].each do |filter_name|

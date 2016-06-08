@@ -19,7 +19,7 @@ namespace :movies do
 
     logger.info "Creating Movies: #{movies.count} movies total."
 
-    movies.each do |movie|
+    movies.each_with_index do |movie, index|
       Movie.create(
         title:   movie[:title],
         year:    movie[:year],
@@ -27,7 +27,8 @@ namespace :movies do
         genre:   Genre.find_or_create_by(name:  movie[:genre]),
         price:   rand(100),
         actors:  assignable_actors,
-        writers: assignable_writers
+        writers: assignable_writers,
+        is_classic: index % 100 == 0
       )
       print "."
     end

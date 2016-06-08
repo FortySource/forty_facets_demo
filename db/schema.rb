@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140611221342) do
+ActiveRecord::Schema.define(version: 20160608203052) do
 
   create_table "actors", force: true do |t|
     t.string   "name"
@@ -40,6 +40,7 @@ ActiveRecord::Schema.define(version: 20140611221342) do
     t.datetime "updated_at"
     t.float    "price"
     t.integer  "year"
+    t.boolean  "is_classic", default: false, null: false
   end
 
   create_table "movies_writers", force: true do |t|

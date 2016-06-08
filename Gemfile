@@ -15,7 +15,7 @@ gem 'bootstrap-sass'
 gem 'haml-rails'
 gem 'will_paginate'
 
-gem 'forty_facets'
+gem 'forty_facets', '0.1.3'
 gem 'pg'
 gem 'jquery-ui-rails'
 gem 'rails_12factor'
@@ -26,4 +26,5 @@ group :development do
   gem 'html2haml'
   gem 'quiet_assets'
   gem 'rails_layout'
+  gem 'byebug'
 end

@@ -10,6 +10,8 @@ class MovieSearch < FortyFacets::FacetSearch
   facet :actors,  name: 'Actors',  order: :name
   facet :writers, name: 'Writers', order: :name
 
+  scope :classics, name: 'Classics'
+
   orders 'Title' => :title,
          'price, cheap first' => "price asc",
          'price, expensive first' => {price: :desc, title: :desc}
