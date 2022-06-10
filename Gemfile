@@ -34,7 +34,7 @@ gem 'jquery-rails'
 gem 'haml-rails'
 gem 'will_paginate'
 
-gem 'forty_facets', '0.2'
+gem 'forty_facets', "0.2.1"
 gem 'pg'
 gem 'faker'
 

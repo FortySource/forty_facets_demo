@@ -87,7 +87,7 @@ GEM
     faker (2.21.0)
       i18n (>= 1.8.11, < 2)
     ffi (1.15.5)
-    forty_facets (0.2)
+    forty_facets (0.2.1)
     globalid (1.0.0)
       activesupport (>= 5.0)
     haml (5.2.2)
@@ -226,7 +226,7 @@ DEPENDENCIES
   bootstrap-sass
   debug
   faker
-  forty_facets (= 0.2)
+  forty_facets (= 0.2.1)
   haml-rails
   jquery-rails
   pg
