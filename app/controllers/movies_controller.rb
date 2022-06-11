@@ -7,6 +7,7 @@ class MoviesController < ApplicationController
     model 'Movie'
 
     text  :title, name: 'Title'
+    facet :year
 
     orders 'Title' => :title,
            'price, cheap first' => 'price asc',
