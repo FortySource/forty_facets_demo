@@ -20,6 +20,8 @@
   </div>
 
   <%= render partial: 'facet', locals: { filter: @search.filter(:year)} %>
+  <%= render partial: 'facet', locals: { filter: @search.filter(:actors)} %>
+  <%= render partial: 'facet', locals: { filter: @search.filter(:writers)} %>
 </div>
 <%= paginate @movies %>
 <div id="results">

@@ -8,6 +8,8 @@ class MoviesController < ApplicationController
 
     text  :title, name: 'Title'
     facet :year
+    facet :actors
+    facet :writers
 
     orders 'Title' => :title,
            'price, cheap first' => 'price asc',
@@ -16,6 +18,6 @@ class MoviesController < ApplicationController
 
   def index
     @search = MovieSearch.new(params)
-    @movies = @search.result.page(params[:page])
+    @movies = @search.result.distinct.page(params[:page])
   end
 end
