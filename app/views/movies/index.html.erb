@@ -9,8 +9,12 @@
 </div>
 <div id="results">
   <% @movies.each do |movie| %>
-    <div>
+    <div style="background-image: url('<%= "https://picsum.photos/seed/#{movie.id}/200/300" %>')">
       <h3><%= movie.title %></h3>
+      <div class="writers">by: <%= movie.writers.map(&:name).join(", ") %></div>
+      <div class="actors">featuring: <%= movie.actors.map(&:name).join(", ") %></div>
+      <div class="price"><%= movie.price %>$</div>
+      <div class="year"><%= movie.year unless movie.year == 0%></div>
     </div>
   <% end %>
 </div>

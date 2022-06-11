@@ -17,6 +17,10 @@
   --filter-bar-width: 250px;
 }
 
+body {
+    font-family: "Gill Sans", sans-serif;
+}
+
 #filters {
     margin-left: calc(-1 *  var(--filter-bar-width));
     width: var(--filter-bar-width);
@@ -44,6 +48,56 @@
     height: auto;
     padding: 1em;
 }
+
+#results {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+#results > * {
+  position: relative;
+  width: 12em;
+  height: 18em;
+  background-color: #EED;
+  margin: 0.5em;
+}
+
+#results h3 {
+  font-size: 1em;
+  margin: 0;
+  background-color: rgba(0,0,0,0.5);
+  padding: 0.5em;
+  color: white;
+  font-weight: normal;
+}
+
+#results .actors, #results .writers {
+  font-size: 0.7em;
+  padding: 0.5em;
+}
+
+#results .price {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  font-size: 1em;
+  margin: 0;
+  background-color: rgba(0,0,0,0.5);
+  padding: 0.5em;
+  color: white;
+}
+
+#results .year {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  font-size: 1em;
+  margin: 0;
+  background-color: rgba(0,0,0,0.5);
+  padding: 0.5em;
+  color: white;
+}
+
 
 /* -- Responsive Styles (Media Queries) ------------------------------------- */
 
