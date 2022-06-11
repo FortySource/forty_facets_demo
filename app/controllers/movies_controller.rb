@@ -7,6 +7,10 @@ class MoviesController < ApplicationController
     model 'Movie'
 
     text  :title, name: 'Title'
+
+    orders 'Title' => :title,
+           'price, cheap first' => 'price asc',
+           'price, expensive first' => { price: :desc, title: :desc }
   end
 
   def index
