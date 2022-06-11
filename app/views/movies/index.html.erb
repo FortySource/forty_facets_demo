@@ -1,3 +1,10 @@
+<div class="filter">
+  <%= form_with method: :get do |form| %>
+    <%= form.label :query, "Search for:" %>
+    <%= form.text_field :query %>
+    <%= form.submit "Search" %>
+  <% end %>
+</div>
 <% @movies.each do |movie| %>
   <div>
     <h3><%= movie.title %></h3>
