@@ -42,6 +42,7 @@ gem "bootsnap", require: false
 gem 'forty_facets', "0.2.1"
 gem 'pg'
 gem 'faker'
+gem 'kaminari'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
