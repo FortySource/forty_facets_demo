@@ -19,31 +19,7 @@
     </ul>
   </div>
 
-  <% filter = @search.filter(:year) %>
-  <div class="facet">
-    <div class="filter-title">
-      <%= filter.name %>
-      <span class="small text-muted">
-        <%= "(#{filter.facet.length})" %>
-      </span>
-    </div>
-    <div class="filter-values">
-      <ul class="selected">
-        <% filter.selected.each do |entity| %>
-          <li><%= link_to entity.try(:name) || entity, filter.remove(entity).path %></li>
-        <% end %>
-      </ul>
-      <ul class="selectable">
-        <% filter.facet.reject(&:selected).each do |facet_value| %>
-          <% entity = facet_value.entity %>
-          <li>
-            <%= link_to entity.try(:name) || entity, filter.add(entity).path %>
-            <span class="count"><%= "(#{facet_value.count})" %></span>
-          </li>
-        <% end %>
-      </ul>
-    </div>
-  </div>
+  <%= render partial: 'facet', locals: { filter: @search.filter(:year)} %>
 </div>
 <%= paginate @movies %>
 <div id="results">
