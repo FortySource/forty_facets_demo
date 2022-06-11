@@ -1,12 +1,16 @@
-<div class="filter">
+<input type="checkbox" id="menu-state"/>
+<label for="menu-state" id="menu-toggle">🍔</label>
+<div id="filters">
   <%= form_with method: :get do |form| %>
     <%= form.label :query, "Search for:" %>
     <%= form.text_field :query %>
     <%= form.submit "Search" %>
   <% end %>
 </div>
-<% @movies.each do |movie| %>
-  <div>
-    <h3><%= movie.title %></h3>
-  </div>
-<% end %>
+<div id="results">
+  <% @movies.each do |movie| %>
+    <div>
+      <h3><%= movie.title %></h3>
+    </div>
+  <% end %>
+</div>

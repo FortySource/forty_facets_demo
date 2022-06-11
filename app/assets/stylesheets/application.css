@@ -13,3 +13,59 @@
  *= require_tree .
  *= require_self
  */
+:root {
+  --filter-bar-width: 250px;
+}
+
+#filters {
+    margin-left: calc(-1 *  var(--filter-bar-width));
+    width: var(--filter-bar-width);
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 1000; /* so the menu or its navicon stays above all content */
+    overflow-y: auto;
+    background-color: #EEE;
+}
+
+#menu-state {
+  display: none;
+}
+
+#menu-toggle {
+    position: fixed;
+    display: block;
+    top: 0px;
+    left: 0; 
+    font-size: 25px;
+    z-index: 10;
+    width: 2em;
+    height: auto;
+    padding: 1em;
+}
+
+/* -- Responsive Styles (Media Queries) ------------------------------------- */
+
+/*
+Hides the menu at `48em`, but modify this based on your app's needs.
+*/
+@media (min-width: 48em) {
+    #filters {
+        left: var(--filter-bar-width);
+    }
+
+    body {
+        padding-left: var(--filter-bar-width);
+    }
+}
+
+@media (max-width: 48em) {
+    #menu-state[type="checkbox"]:checked ~ #filters {
+        margin-left: 0;
+    }
+    #menu-state[type="checkbox"]:checked ~ #menu-toggle {
+        left: var(--filter-bar-width);
+    }
+
+}
