@@ -2,8 +2,9 @@
 <label for="menu-state" id="menu-toggle">🍔</label>
 <div id="filters">
   <%= form_with method: :get do |form| %>
-    <%= form.label :query, "Search for:" %>
-    <%= form.text_field :query %>
+    <% title_filter = @search.filter(:title) %>
+    <%= form.label :title, "Search for:" %>
+    <%= text_field_tag 'search[title]', title_filter.value %>
     <%= form.submit "Search" %>
   <% end %>
 </div>
