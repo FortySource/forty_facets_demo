@@ -5,15 +5,14 @@
 #   gem "sqlite3"
 #
 default: &default
-  adapter: sqlite3
+  adapter: postgresql
+  encoding: unicode
+  database: forty_facets_demo
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   timeout: 5000
 
 development:
-  adapter: postgresql
-  encoding: unicode
-  database: forty_facets_demo
-  pool: 5
+  <<: *default
   username: forty_facets_demo
   password: forty_facets_demo
 
@@ -22,11 +21,6 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: db/test.sqlite3
 
 production:
   <<: *default
-  database: db/production.sqlite3
-
-heroku:
-  adapter: postgresql
